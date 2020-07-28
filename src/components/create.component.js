@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import validator from 'validator';
 
 export default class Create extends Component {
   constructor(props) {
@@ -73,11 +74,12 @@ export default class Create extends Component {
         }
 
         if(typeof fields["name"] !== "undefined"){
-           if(!fields["name"].match(/^[a-zA-Z]+$/)){
+           if(!fields["name"].match(/^[a-zA-Z ]+$/)){
               formIsValid = false;
               errors["name"] = "Only letters";
            }        
         }
+
 
         //Email
         if(!fields["email"]){
@@ -100,7 +102,7 @@ export default class Create extends Component {
         } 
 
         if(typeof fields["phone"] !== "undefined"){
-           if(!fields["name"].match(/^(\+91-|\+91|0)?\d{10}$/)){
+           if(!fields["phone"].match(/^(\+91-|\+91|0)?\d{10}$/)){
               formIsValid = false;
               errors["phone"] = "Please enter a valid phone number with country code";
            }        
@@ -111,7 +113,7 @@ export default class Create extends Component {
         } 
 
         if(typeof fields["password"] !== "undefined"){
-           if(!fields["name"].match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,32}$/)){
+           if(!fields["password"].match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,32}$/)){
               formIsValid = false;
               errors["password"] = "Please enter a valid password with min 8 character";
            }        
@@ -133,6 +135,10 @@ export default class Create extends Component {
      e.preventDefault();
 
     if(this.handleValidation()){
+
+      // if(this.state.selectedFile[0]){
+
+      // } else {
            
       let formData = new FormData();
       formData.append('profile_picture', this.state.selectedFile[0]);
@@ -168,6 +174,12 @@ export default class Create extends Component {
 
             });
 
+           /* } else {
+
+
+              alert("Form has errors.")
+            }*/
+
         }else{
            alert("Form has errors.")
         }
@@ -199,7 +211,7 @@ export default class Create extends Component {
                 </div>
                  <div className="form-group">
                   <label> Profile Picture:  </label>
-                   <input type="file" onChange={this.onFileChange} /> 
+                   <input type="file" onChange={this.onFileChange} accept="image/jpg, image/jpeg, image/png" /> 
 
                     <img src={this.state.image_preview} alt="image_preview" width='200px' height="200px"/>
                    
